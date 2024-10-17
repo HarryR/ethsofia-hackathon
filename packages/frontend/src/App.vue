@@ -2,28 +2,24 @@
 import HelloWorld from './components/HelloWorld.vue'
 import ProtectShit from './components/ProtectShit.vue';
 import DoSpam from './components/DoSpam.vue';
+import LoginGated from './LoginGated.vue';
 </script>
 
 <template>
-  <HelloWorld msg="Vite + Vue" />
-  <ProtectShit />
+  <LoginGated>
+    <HelloWorld msg="Vite + Vue" />
+    <ProtectShit />
 
-  <w3m-button />
+    <w3m-button id="w3mbutton" />
 
-  <DoSpam />
+    <DoSpam />
+  </LoginGated>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+#w3mbutton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 </style>

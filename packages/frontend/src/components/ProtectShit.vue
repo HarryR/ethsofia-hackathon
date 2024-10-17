@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { useIExecWeb3Modal } from '../iexec';
+import { useIExec } from '../iexec';
 import { computed, ref, toValue, useTemplateRef } from 'vue'
 
 const info = ref('');
 
-const {dataProtectorCore} = useIExecWeb3Modal();
+const {dataProtectorCore} = useIExec();
 
-const isButtonDisabled = computed(() => dataProtectorCore.value === undefined);
+const isButtonDisabled = computed(() =>
+    dataProtectorCore.value === undefined);
 
 const infoInput = useTemplateRef('myInput');
 

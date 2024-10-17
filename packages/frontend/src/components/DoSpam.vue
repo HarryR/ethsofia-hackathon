@@ -14,7 +14,7 @@ const isSpamming = computed(() =>
 watch(isSpamming, async () => {
     while( toValue(isSpamming) ) {
         for( let i = 0; i < 100; i++ ) {
-            console.log('Spamming!');
+            // TODO: spam iExec RPC with gas consumption stuff
         }
         await sleep(1000);
     }

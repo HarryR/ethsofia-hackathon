@@ -1,6 +1,6 @@
 import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/vue'
 import { BrowserProvider, Eip1193Provider } from 'ethers';
-import { ref} from 'vue';
+import { ref, markRaw } from 'vue';
 //import { asyncComputed, useMemoize } from '@vueuse/core'
 
 const projectId = 'be010c8142040f0e4ff0b6f05608622e';
@@ -45,6 +45,7 @@ const ethersConfig = defaultConfig({
 });
 
 export const modal = createWeb3Modal({
+  isSiweEnabled: true,
   ethersConfig,
   chains: [/*mainnet,*/ iExecChain],
   projectId,
@@ -65,15 +66,13 @@ modal.subscribeState((_) => {
     provider.value = undefined;
   }
 });
-modal.subscribeEvents((_) => {
-  console.log('Event', _);
-});
+
 modal.subscribeProvider((_) => {
   console.log('Subscribe provider', _);
   const p = _.provider as Eip1193Provider;
   provider.value = p;
   if( _.provider ) {
-    ethersBrowserProvider.value = new BrowserProvider(_.provider);
+    ethersBrowserProvider.value = markRaw(new BrowserProvider(_.provider));
   }
   else {
     ethersBrowserProvider.value = undefined;
