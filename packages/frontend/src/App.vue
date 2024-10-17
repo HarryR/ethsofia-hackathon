@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
-import { ethersProvider } from './wallet';
+import ProtectShit from './components/ProtectShit.vue';
 </script>
 
 <template>
   <HelloWorld msg="Vite + Vue" />
+  <ProtectShit />
 
   <w3m-button />
-
-  {{ ethersProvider?.ready }}
 </template>
 
 <style scoped>
