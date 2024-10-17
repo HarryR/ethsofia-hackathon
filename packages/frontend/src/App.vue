@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
 import ProtectShit from './components/ProtectShit.vue';
+import DoSpam from './components/DoSpam.vue';
 </script>
 
 <template>
@@ -8,6 +9,8 @@ import ProtectShit from './components/ProtectShit.vue';
   <ProtectShit />
 
   <w3m-button />
+
+  <DoSpam />
 </template>
 
 <style scoped>

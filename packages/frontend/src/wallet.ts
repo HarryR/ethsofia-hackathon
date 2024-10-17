@@ -1,14 +1,11 @@
 import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/vue'
-/*
-import { BrowserProvider } from 'ethers/providers'
-import { Eip1193Provider } from 'ethers';
-import { computed, ref, toValue } from 'vue';
-import { IExecDataProtectorCore, IExecDataProtectorSharing } from '@iexec/dataprotector';
-import { asyncComputed, useMemoize } from '@vueuse/core'
-*/
+import { BrowserProvider, Eip1193Provider } from 'ethers';
+import { ref} from 'vue';
+//import { asyncComputed, useMemoize } from '@vueuse/core'
 
 const projectId = 'be010c8142040f0e4ff0b6f05608622e';
 
+/*
 const mainnet = {
   chainId: 1,
   name: 'Ethereum',
@@ -16,7 +13,9 @@ const mainnet = {
   explorerUrl: 'https://etherscan.io',
   rpcUrl: 'https://cloudflare-eth.com'
 }
-const iexecSidechain = {
+*/
+
+export const iExecChain = {
   chainId: 134,
   name: 'iExec',
   currency: 'xRLC',
@@ -47,79 +46,36 @@ const ethersConfig = defaultConfig({
 
 export const modal = createWeb3Modal({
   ethersConfig,
-  chains: [/*mainnet,*/ iexecSidechain],
+  chains: [/*mainnet,*/ iExecChain],
   projectId,
   enableSwaps: false,   // Fuck swaps
   enableAnalytics: false, // Fuck analytics
   enableOnramp: false // Fuck onramp
 });
 
-/*
+export type ModalT = ReturnType<typeof createWeb3Modal>;
 
-export function useIExecWeb3Modal(modal: AppKit<EthersStoreUtilState, number>) {
-  // Ref to track connection status
-  const isConnectedRef = ref(false)
+export const provider = ref<Eip1193Provider>();
 
-  // Function to get the wallet provider and ensure connection
-  const getConnectedProvider = async () => {
-    if (!isConnectedRef.value) {
-      await modal.open()
-      isConnectedRef.value = true
-    }
-    // AppKit doesn't have a direct getWalletProvider method, so we use getProvider
-    return modal.getProvider()
+export const ethersBrowserProvider = ref<BrowserProvider>();
+
+modal.subscribeState((_) => {
+  console.log('State change', _);
+  if( _.activeChain === undefined ) {
+    provider.value = undefined;
   }
-
-  // Memoize the getConnectedProvider function
-  const memoizedGetConnectedProvider = useMemoize(getConnectedProvider)
-
-  // Memoize the creation of IExecDataProtectorCore
-  const memoizedCreateDataProtectorCore = useMemoize((provider: any) => new IExecDataProtectorCore(provider))
-
-  // Computed property to get the memoized and connected wallet provider
-  const walletProvider = computed(async () => {
-    try {
-      return await memoizedGetConnectedProvider()
-    } catch (error) {
-      console.error('Failed to get wallet provider:', error)
-      return null
-    }
-  })
-
-  // Computed property to get the memoized IExecDataProtectorCore instance
-  const dataProtectorCore = computed(async () => {
-    const provider = await walletProvider.value
-    if (provider) {
-      return memoizedCreateDataProtectorCore(provider)
-    }
-    return null
-  })
-
-  // Function to reset connection and clear memoized values
-  const resetConnection = () => {
-    isConnectedRef.value = false
-    memoizedGetConnectedProvider.clear()
-    memoizedCreateDataProtectorCore.clear()
+});
+modal.subscribeEvents((_) => {
+  console.log('Event', _);
+});
+modal.subscribeProvider((_) => {
+  console.log('Subscribe provider', _);
+  const p = _.provider as Eip1193Provider;
+  provider.value = p;
+  if( _.provider ) {
+    ethersBrowserProvider.value = new BrowserProvider(_.provider);
   }
-
-  // Function to handle wallet changes
-  const handleWalletChange = () => {
-    resetConnection()
+  else {
+    ethersBrowserProvider.value = undefined;
   }
-
-  // Set up event listeners for wallet changes
-  modal.subscribeEvents(({ event }) => {
-    if (event.name === 'MODAL_CLOSE' || event.name === 'CONNECT_ERROR') {
-      handleWalletChange()
-    }
-  })
-
-  return {
-    isConnected: isConnectedRef,
-    walletProvider,
-    dataProtectorCore,
-    resetConnection,
-    handleWalletChange
-  }
-}
-*/
+});
