@@ -19,7 +19,10 @@ concurrency:
 
 jobs:
   # Single deploy job since we're just deploying
-  build:
+  build-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -49,13 +52,6 @@ jobs:
         with:
           # Upload dist repository
           path: './packages/frontend/dist'
-  deploy:
-    environment:
-        name: github-pages
-        url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
