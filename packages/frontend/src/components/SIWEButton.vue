@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, toValue } from 'vue';
+import { computed, toValue } from 'vue';
 import { ethersBrowserProvider } from '../wallet';
 import { useSIWE } from '../login';
 

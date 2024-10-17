@@ -1,9 +1,21 @@
 import { computed, ref, toValue, watch } from "vue";
 import { ethersBrowserProvider, modal } from './wallet';
-import { getBytes, keccak256 } from "ethers";
+import { getBytes } from "ethers";
+import { hmac } from '@noble/hashes/hmac';
+import { keccak_256 } from '@noble/hashes/sha3';
 
-export const siweDerivedKey = ref<string>();
+const siweDerivedKey = ref<Uint8Array>();
 const lastAddress = ref<string>();
+
+export const isLoggedIn = computed(() => toValue(siweDerivedKey) !== undefined);
+
+export function deriveKey(namespace:string) {
+    const dk = toValue(siweDerivedKey);
+    if( ! dk ) {
+        throw new Error('Not logged in');
+    }
+    return hmac(keccak_256, dk, new TextEncoder().encode(namespace));
+}
 
 watch(ethersBrowserProvider, async (bp) => {
     if( ! bp ) {
@@ -55,7 +67,7 @@ export function useSIWE() {
         catch(e:any) {
             return false;
         }
-        siweDerivedKey.value = keccak256(getBytes(result));
+        siweDerivedKey.value = keccak_256(getBytes(result));
     }
     return {
         canSign,
