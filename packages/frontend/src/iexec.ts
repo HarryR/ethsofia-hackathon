@@ -1,21 +1,47 @@
 import { computed, toValue } from 'vue'
-import { IExecDataProtectorCore, IExecDataProtectorSharing } from '@iexec/dataprotector'
-import { provider } from './wallet';
+import { IExecDataProtector, IExecDataProtectorCore, IExecDataProtectorSharing } from '@iexec/dataprotector';
+import { ethersBrowserProvider } from './wallet';
+import { derivedEthersWallet } from './login';
+
+export const iExecDebug = true;
+
+const iexecOptions = iExecDebug ? {
+  smsURL: {
+    scone: "https://sms.scone-debug.v8-bellecour.iex.ec",
+    gramine: 'https://sms.gamine-debug.v8-bellecour.iex.ec', // XXX: unused!
+  },
+} : {};
 
 export function useIExec() {
+  const dataProtectorWallet = computed(() => {
+    const ebp = toValue(ethersBrowserProvider);
+    if( ! ebp ) {
+        return;
+    }
+    const wallet = derivedEthersWallet("iExec.dataProtector");
+    return wallet.connect(ebp);
+  });
+
+  const dataProtector = computed(() => {
+    const dpw = toValue(dataProtectorWallet);
+    if( dpw ) {
+      return new IExecDataProtector(dpw, {iexecOptions});
+    }
+  });
+
   const dataProtectorCore = computed(() => {
-    const p = toValue(provider);
-    if( p ) {
-      return new IExecDataProtectorCore(p);
+    const dpw = toValue(dataProtectorWallet);
+    if( dpw ) {
+      return new IExecDataProtectorCore(dpw, {iexecOptions});
     }
   });
 
   const dataProtectorSharing = computed(() => {
-    const p = toValue(provider);
-    if( p ) {
-      return new IExecDataProtectorSharing(p);
+    const dpw = toValue(dataProtectorWallet);
+    if( dpw ) {
+      return new IExecDataProtectorSharing(dpw);
     }
   });
 
-  return { dataProtectorCore, dataProtectorSharing };
+  return { dataProtectorCore, dataProtector, dataProtectorSharing, dataProtectorWallet };
 }
