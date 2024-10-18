@@ -4,7 +4,7 @@ import { ethersBrowserProvider, iExecChain } from '../wallet';
 import { computed, ref, toValue } from 'vue'
 import { ProtectedDataWithSecretProps } from '@iexec/dataprotector';
 import { ZeroAddress } from 'ethers';
-import { getTaskRunnerContract } from '../taskresult';
+import { associateTaskResults } from '../taskresult';
 import QuestionField from './QuestionField.vue'
 import { evaluatePrompt } from '../llm';
 
@@ -34,14 +34,13 @@ const question = [
 const isFormError = ref(false);
 const formErrorFields = ref<string[]>([]);
 
-//const qf = [];
-//const qv:ReturnType<typeof ref<string>>[] = [];
 const qv:string[] = [];
 for( const _ in question ) {
     qv.push('');
 }
 
-function validateQuestions() {
+/// Checks if the questions have been answered
+function areAnswersValid() {
     let isValid = true;
     formErrorFields.value = [];
     const errors = [];
@@ -57,11 +56,17 @@ function validateQuestions() {
             errors.push(q[0]);
         }
     }
+    return {isValid, errors};
+}
+
+function validateQuestions() {
+    const {isValid,errors} = areAnswersValid();
     formErrorFields.value = errors;
     isFormError.value = isValid === false;
     return isValid;
 }
 
+/// Converts questions & answers into a prompt for the LLM
 function makePrompt() {
     const lines = [];
     for( const i in question ) {
@@ -152,9 +157,12 @@ async function doProtectData () {
             });
             console.log(protectedResult);
 
+            const receipt = await associateTaskResults(dpw, result.address, protectedResult.taskId, '');
+            /*
             const contract = getTaskRunnerContract(dpw); // new Contract(taskResultContractAddr, taskResultABI, dpw);
             const tx = await contract.associate(result.address, protectedResult.taskId);
             const receipt = await tx.wait();
+            */
             console.log('Receipt', receipt);
 
             const x = await toValue(dataProtectorSharing)?.getResultFromCompletedTask({

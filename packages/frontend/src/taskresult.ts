@@ -1,4 +1,4 @@
-import { Contract, ContractRunner } from "ethers";
+import { Contract, ContractRunner, ContractTransactionResponse } from "ethers";
 
 const taskResultContractAddr = '0x2049b8064FBD4E137c24e0fc383d76662b7f2701';
 
@@ -14,6 +14,11 @@ const taskResultABI = [
         "internalType": "bytes32",
         "name": "taskId",
         "type": "bytes32"
+      },
+      {
+        "internalType": "string",
+        "name": "data",
+        "type": "string"
       }
     ],
     "name": "associate",
@@ -33,8 +38,26 @@ const taskResultABI = [
     "outputs": [
       {
         "internalType": "bytes32",
-        "name": "",
+        "name": "taskId",
         "type": "bytes32"
+      },
+      {
+        "internalType": "string",
+        "name": "data",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "registry",
+    "outputs": [
+      {
+        "internalType": "contract IERC721",
+        "name": "",
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -43,6 +66,17 @@ const taskResultABI = [
 ];
 
 export function getTaskRunnerContract (r:ContractRunner) {
-    const contract = new Contract(taskResultContractAddr, taskResultABI, r);
-    return contract;
+    return new Contract(taskResultContractAddr, taskResultABI, r);
+}
+
+export async function associateTaskResults (
+  runner:ContractRunner,
+  owner:string,
+  taskId:string,
+  result:string
+)
+{
+  const contract = getTaskRunnerContract(runner);
+  const tx = await contract.associate(owner, taskId, result) as ContractTransactionResponse;
+  return await tx.wait();
 }

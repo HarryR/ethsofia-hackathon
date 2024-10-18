@@ -15,15 +15,24 @@ We need to verify who the dataset owner is
 // DataProtector.registry = 0x799daa22654128d0c64d5b79eac9283008158730
 
 contract TaskResult {
-    mapping(address datasetAddress => bytes32 taskId) public datasetTasks;
+    struct Response {
+        bytes32 taskId;
+        string data;
+    }
+
+    mapping(address datasetAddress => Response response) public datasetTasks;
+
     IERC721 public immutable registry;
 
     constructor() {
         registry = IERC721(0x799DAa22654128d0C64d5b79eac9283008158730);
     }
 
-    function associate(address dataset, bytes32 taskId) external {
+    function associate(address dataset, bytes32 taskId, string calldata data) external {
         require( registry.ownerOf(uint256(uint160(dataset))) == msg.sender, "not owner" );
-        datasetTasks[dataset] = taskId;
+        datasetTasks[dataset] = Response({
+            taskId: taskId,
+            data: data
+        });
     }
 }

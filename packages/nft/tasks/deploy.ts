@@ -1,7 +1,7 @@
 import { task } from 'hardhat/config';
 import { existsSync, promises as fs } from 'fs';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
-import { ContractFactory, parseEther } from 'ethers';
+import { ContractFactory } from 'ethers';
 import dotenv from 'dotenv';
 
 function makeEnvUpdater(env: dotenv.DotenvParseOutput, filename?: string) {
@@ -91,9 +91,15 @@ task('deploy')
       setenv('VITE_WEB3_GATEWAY', currentNetworkUrl);
     }
 
-    const addr_taskResult = await deployContract(
+    await deployContract(
         hre,
         await hre.ethers.getContractFactory('TaskResult'),
         'CONTRACT_TASKRESULT',
+        env, setenv);
+
+    await deployContract(
+        hre,
+        await hre.ethers.getContractFactory('LLMQuestion'),
+        'CONTRACT_LLMQUESTION',
         env, setenv);
 });
