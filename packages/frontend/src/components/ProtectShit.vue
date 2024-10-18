@@ -11,9 +11,6 @@ import { evaluatePrompt } from '../llm';
 const isWorking = ref(false);
 const isSuccess = ref(false);
 
-const isButtonDisabled = computed(() =>
-    dataProtectorCore.value === undefined || toValue(isWorking));
-
 const dpcStatusText = ref('');
 const dpcErrorText = ref('');
 const dpcResult = ref<ProtectedDataWithSecretProps>();
@@ -40,7 +37,7 @@ for( const _ in question ) {
 }
 
 /// Checks if the questions have been answered
-function areAnswersValid() {
+const areAnswersValid = computed(()=> {
     let isValid = true;
     formErrorFields.value = [];
     const errors = [];
@@ -57,10 +54,13 @@ function areAnswersValid() {
         }
     }
     return {isValid, errors};
-}
+});
+
+const isButtonDisabled = computed(() =>
+    dataProtectorCore.value === undefined || toValue(isWorking) || ! toValue(areAnswersValid).isValid);
 
 function validateQuestions() {
-    const {isValid,errors} = areAnswersValid();
+    const {isValid,errors} = toValue(areAnswersValid);
     formErrorFields.value = errors;
     isFormError.value = isValid === false;
     return isValid;

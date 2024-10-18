@@ -16,10 +16,14 @@ const WllamaPaths: AssetsPathConfig = {
 
 const modelUrl = "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q4_k_m.gguf"
 
-export async function evaluatePrompt(prompt :string) {
-    let wllama: Wllama = new Wllama(WllamaPaths);
+let wllama: Wllama | undefined=undefined;
 
-    await wllama.loadModelFromUrl(modelUrl);
+export async function evaluatePrompt(prompt :string) {
+    if( wllama === undefined ) {
+        wllama = new Wllama(WllamaPaths);
+        await wllama.loadModelFromUrl(modelUrl);
+    }
+
     let result = await wllama.createCompletion(prompt, {
         nPredict: 300
     });

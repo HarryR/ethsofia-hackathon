@@ -3,6 +3,7 @@ import { HardhatUserConfig } from 'hardhat/config';
 import '@typechain/hardhat';
 
 import './tasks/deploy';
+import './tasks/makeq';
 
 const TEST_HDWALLET = {
     mnemonic: 'test test test test test test test test test test test junk',

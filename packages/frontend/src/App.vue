@@ -22,9 +22,10 @@ import { RouterView } from 'vue-router';
 
 <style scoped>
 #w3mbutton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  padding: 10px;
 }
 
 nav a {

@@ -1,6 +1,6 @@
 import { Contract, ContractRunner, ContractTransactionResponse } from "ethers";
 
-const taskResultContractAddr = '0x2049b8064FBD4E137c24e0fc383d76662b7f2701';
+const taskResultContractAddr = import.meta.env.CONTRACT_TASKRESULT; // '0x2049b8064FBD4E137c24e0fc383d76662b7f2701';
 
 const taskResultABI = [
   {
@@ -63,10 +63,10 @@ const taskResultABI = [
     "stateMutability": "view",
     "type": "function"
   }
-];
+] as const;
 
-export function getTaskRunnerContract (r:ContractRunner) {
-    return new Contract(taskResultContractAddr, taskResultABI, r);
+export function getTaskRunnerContract (runner:ContractRunner) {
+    return new Contract(taskResultContractAddr, taskResultABI, runner);
 }
 
 export async function associateTaskResults (

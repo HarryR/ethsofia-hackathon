@@ -23,14 +23,18 @@ watch(isSpamming, async () => {
 
 <template>
     <label for="doSpam" id="doSpamContainer">
-        <input type="checkbox" :disabled="disableSpam" v-model="doSpam" id="doSpam" /> Spam iExec RPC
+        <input type="checkbox" :disabled="disableSpam" v-model="doSpam" id="doSpam" />
+        Enable DDoS
     </label>
 </template>
 
 <style scoped>
 #doSpamContainer {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+    position: fixed;
+    padding: 10px;
+    bottom: 0px;
+    right: 0px;
+    background: rgba(1,1,1,0.4);
+    border-top-left-radius: 10px;
 }
 </style>
