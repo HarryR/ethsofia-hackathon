@@ -1,6 +1,6 @@
 import { computed, ref, toValue, watch } from "vue";
 import { ethersBrowserProvider, modal } from './wallet';
-import { getBytes } from "ethers";
+import { getBytes, SigningKey, Wallet } from "ethers";
 import { hmac } from '@noble/hashes/hmac';
 import { keccak_256 } from '@noble/hashes/sha3';
 
@@ -15,6 +15,11 @@ export function deriveKey(namespace:string) {
         throw new Error('Not logged in');
     }
     return hmac(keccak_256, dk, new TextEncoder().encode(namespace));
+}
+
+export function derivedEthersWallet(namespace:string) {
+    const key = new SigningKey(deriveKey(namespace));
+    return new Wallet(key);
 }
 
 watch(ethersBrowserProvider, async (bp) => {
