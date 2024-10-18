@@ -6,8 +6,17 @@ settings:
 
 importers:
 
+  packages/backend:
+    dependencies:
+      '@iexec/dataprotector-deserializer':
+        specifier: ^0.1.0
+        version: 0.1.0
+
   packages/frontend:
     dependencies:
+      '@wllama/wllama':
+        specifier: ^1.16.2
+        version: 1.16.2
       vue:
         specifier: ^3.5.12
         version: 3.5.12(typescript@5.6.3)
@@ -404,6 +413,9 @@ packages:
     resolution: {integrity: sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+
+  '@iexec/dataprotector-deserializer@0.1.0':
+    resolution: {integrity: sha512-qjrcWR286qegASxcHMSZCmt6dKubIHXIqceXqSscq4vzEDHn4nIwHUabDbTLQbvdrF0XGswNeQuYc10vgjZtow==}
 
   '@iexec/dataprotector@2.0.0-beta.10':
     resolution: {integrity: sha512-eeY7Xv06Hsi4KYqiBCcnc2AtGOftF1we9RDTsXw6BO6l6Xfl0sFxa7iZpb1Ee3XTp0yu+aE5OWadRaQndZ86Wg==}
@@ -1194,6 +1206,9 @@ packages:
 
   '@web3modal/wallet@5.1.11':
     resolution: {integrity: sha512-/ooQZXK1h7LGBUemebldYPAV2oJAgxkgSiCMoHWynhuS0LO3BzhOhGL+jV19w4iU81bS1GSNFTxYT9LL6Scesw==}
+
+  '@wllama/wllama@1.16.2':
+    resolution: {integrity: sha512-eCzbmJMIxu4zOT9HKi0AVT6TPiHW8tyfT4eQSNVYGZV19lVdHhHR0s8SlTupyG6Fyo5CDKsjxLEREsPekk0zJA==}
 
   acorn-walk@8.3.4:
     resolution: {integrity: sha512-ueEepnujpqee2o5aIYnvHU6C0A42MNdsIDeqy5BydrkuC5R1ZuUFnm27EeFJGoEHJQgn3uleRvmTXaJgfXbt4g==}
@@ -4300,6 +4315,11 @@ snapshots:
     dependencies:
       graphql: 16.9.0
 
+  '@iexec/dataprotector-deserializer@0.1.0':
+    dependencies:
+      borsh: 2.0.0
+      jszip: 3.10.1
+
   '@iexec/dataprotector@2.0.0-beta.10(encoding@0.1.13)(graphql@16.9.0)(typescript@5.6.3)(undici@6.20.1)':
     dependencies:
       '@ethersproject/bytes': 5.7.0
@@ -5526,6 +5546,8 @@ snapshots:
       '@web3modal/common': 5.1.11
       '@web3modal/polyfills': 5.1.11
       zod: 3.22.4
+
+  '@wllama/wllama@1.16.2': {}
 
   acorn-walk@8.3.4:
     dependencies:
