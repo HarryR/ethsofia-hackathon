@@ -39,6 +39,7 @@ const {id} = defineProps({
 });
 
 const qid = Number(id);
+const llmResponse = ref<string>();
 
 console.log('QID IS', id);
 
@@ -227,7 +228,7 @@ async function doProtectData () {
                 newOwner: browserWalletAddress
             });
             */
-
+            llmResponse.value = fakeResult;
             isSuccess.value = true;
         }
         catch( e:any ) {
@@ -270,6 +271,9 @@ async function doProtectData () {
             <h3>Success!</h3>
             Address: {{ dpcResult?.address }}<br />
             Tx: <a :href="`${iExecChain.explorerUrl}/tx/${dpcResult?.transactionHash}`">{{ dpcResult?.transactionHash }}</a><br />
+
+            LLM Response:
+            <pre>{{ llmResponse }}</pre>
         </div>
     </div>
   <hr />

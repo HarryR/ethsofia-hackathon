@@ -12,6 +12,58 @@ The result is public, so anybody can see what the AI thinks, but they won't see 
 
 Example transaction: https://blockscout.bellecour.iex.ec//tx/0xffcd61e77e727354588e85275808bc6e7d4ae13f91ac6e8446cbdc42019faf3f
 
+### Tech Used:
+
+ * pnpm
+ * TypeScript
+ * VueJS
+ * Solidity
+ * [wllama](https://github.com/ngxson/wllama) (WebAssembly binding for llama.cpp)
+ * [iExec](https://www.iex.ec/) - off-chain compute layer
+ * [Scone Framework](https://scontain.com/) - Docker containers inside SGX
+ * LLM: [Qwen2.5 0.5B](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF)
+
+### Questionnaire Format
+
+There can be several types of questions, info to be shown to the user, and prompts to be included.
+
+```json
+{
+    "title": "Basic Health Check",
+    "questions": [
+        ["", "prompt", "I am medical AI, here are my questions"],
+        ["Please fill out this health questions", "info"],
+        ["What is your age?", "number"],
+        ["How many cigarettes per day?", "range", "[0,100]"],
+        ["What is your sex?", "select", "[\"male\", \"female\", \"other\"]"],
+        ["When did your symptoms first appear?", "select", "[\"Today\",\"This Week\", \"This Month\", \"This Year\", \"Longer than 1 year\"]"],
+        ["Please describe your problem", "string"],
+        ["", "prompt", "Please provide a brief response"]
+    ]
+}
+```
+
+Question types:
+
+ * range
+ * select
+ * number
+ * string (free text)
+
+Your responses to the questionnaire is converted into a prompt, it includes the `prompt` fields above (but not the `info`) and gives the LLM a list of your responses. For example:
+
+```
+I am medical AI, here are my questions
+
+ * What is your age?: 3
+ * How many cigarettes per day?: 0
+ * What is your sex?: male
+ * When did your symptoms first appear?: Today
+ * Please describe your problem: Problem
+
+Please provide a brief response
+```
+
 ### Problems
 
  * We couldn't get AI working inside the confidential worker, this is a problem with iExec & Scone only supporting Node 14 (ancient). Instead we're running the LLM in the browser with WASM as a workaround.
