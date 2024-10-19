@@ -1,0 +1,4 @@
+#!/bin/bash
+
+IMG_BASE=bojidarbg/idap-hw
+IEXEC_WALLET_ADDRESS=0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f

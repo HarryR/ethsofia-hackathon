@@ -1,0 +1,16 @@
+{
+  "name": "idap-hw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fugood/llama.node": "^0.3.2",
+    "@iexec/dataprotector-deserializer": "^0.1.0"
+  }
+}

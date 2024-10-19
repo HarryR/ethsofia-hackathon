@@ -1,0 +1,22 @@
+{
+  "name": "idap-hw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bundle-transformers": "mkdir -p vendor/; esbuild --bundle transformers-import.js --outfile=vendor/transformers.js --target=node14"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@iexec/dataprotector-deserializer": "^0.1.0",
+    "core-js": "^3.38.1",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@xenova/transformers": "^2.17.2",
+    "esbuild": "^0.24.0"
+  }
+}

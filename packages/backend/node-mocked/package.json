@@ -1,0 +1,16 @@
+{
+  "name": "ethsofia2024-ai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@iexec/dataprotector-deserializer": "^0.1.0",
+    "figlet": "^1.7.0"
+  }
+}
