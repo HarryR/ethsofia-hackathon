@@ -9,6 +9,7 @@ import { RouterView } from 'vue-router';
   <LoginGated>
     <nav>
       <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/questions">Questions</RouterLink>
       <RouterLink to="/upload">Upload</RouterLink>
     </nav>
 

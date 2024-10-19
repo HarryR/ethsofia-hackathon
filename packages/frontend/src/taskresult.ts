@@ -1,6 +1,6 @@
 import { Contract, ContractRunner, ContractTransactionResponse } from "ethers";
 
-const taskResultContractAddr = import.meta.env.CONTRACT_TASKRESULT; // '0x2049b8064FBD4E137c24e0fc383d76662b7f2701';
+const taskResultContractAddr = import.meta.env.VITE_CONTRACT_TASKRESULT;
 
 const taskResultABI = [
   {

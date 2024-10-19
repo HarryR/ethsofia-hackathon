@@ -7,6 +7,7 @@ import { ZeroAddress } from 'ethers';
 import { associateTaskResults } from '../taskresult';
 import QuestionField from './QuestionField.vue'
 import { evaluatePrompt } from '../llm';
+import { getQuestion } from '../qlist';
 
 const isWorking = ref(false);
 const isSuccess = ref(false);
@@ -17,6 +18,7 @@ const dpcResult = ref<ProtectedDataWithSecretProps>();
 
 const { dataProtectorWallet, dataProtectorCore, dataProtectorSharing } = useIExec();
 
+/*
 const question = [
     ['', 'prompt', 'I am medical AI, here are my questions'],
     ['Please fill out this health questions', 'info'],
@@ -27,23 +29,53 @@ const question = [
     ['Please describe your problem', 'string'],
     ['', 'prompt', 'Please provide a brief response']
 ] as const;
+*/
+
+const questionnaire = ref<any>();
+
+// TODO: load question from
+const {id} = defineProps({
+    id: String
+});
+
+const qid = Number(id);
+
+console.log('QID IS', id);
+
+const qv:string[] = [];
+
+async function loadQuestion() {
+    const dpw = toValue(dataProtectorWallet);
+    if( ! dpw ) {
+        throw new Error('No DPW!');
+    }
+    if( ! id ) {
+        throw new Error('No qid!');
+    }
+    const x = questionnaire.value = await getQuestion(dpw, qid);
+    for( const _ in x.questions ) {
+        qv.push('');
+    }
+    console.log('Question loaded', x);
+}
+
+loadQuestion();
 
 const isFormError = ref(false);
 const formErrorFields = ref<string[]>([]);
-
-const qv:string[] = [];
-for( const _ in question ) {
-    qv.push('');
-}
 
 /// Checks if the questions have been answered
 const areAnswersValid = computed(()=> {
     let isValid = true;
     formErrorFields.value = [];
     const errors = [];
-    for( const i in question ) {
-        const q = question[i];
-        const v = qv[i];
+    const x = toValue(questionnaire);
+    if( ! x ) {
+        return {isValid:false,errors:[]};
+    }
+    for( const i in x[2] ) {
+        const q = x.questions[i];
+        const v = qv[i as unknown as number];
         const qt = q[1];
         if( qt === 'prompt' || qt === 'info' ) {
             continue;
@@ -56,21 +88,30 @@ const areAnswersValid = computed(()=> {
     return {isValid, errors};
 });
 
-const isButtonDisabled = computed(() =>
-    dataProtectorCore.value === undefined || toValue(isWorking) || ! toValue(areAnswersValid).isValid);
+const isButtonDisabled = computed(() => {
+    const hasDataProtectorCore = toValue(dataProtectorCore) !== undefined;
+    //const areAnswersValidEquals = toValue(areAnswersValid).isValid;
+    const isDisabled = !hasDataProtectorCore || toValue(isWorking); // || ! areAnswersValidEquals);
+    return isDisabled;
+});
 
 function validateQuestions() {
     const {isValid,errors} = toValue(areAnswersValid);
     formErrorFields.value = errors;
     isFormError.value = isValid === false;
+    console.log('isVaid', isValid);
     return isValid;
 }
 
 /// Converts questions & answers into a prompt for the LLM
 function makePrompt() {
     const lines = [];
-    for( const i in question ) {
-        const q = question[i];
+    const x = toValue(questionnaire);
+    if( ! x ) {
+        throw new Error('No questionnaire!');
+    }
+    for( const i in x[2] ) {
+        const q = x[2][i];
         const qt = q[1];
         if( qt === 'info' ) {
             continue;
@@ -81,7 +122,7 @@ function makePrompt() {
             lines.push('');
             continue;
         }
-        const v = qv[i];
+        const v = qv[i as unknown as number];
         lines.push(` * ${q[0]}: ${v}`);
     }
     const llm_input = lines.join("\n");
@@ -200,34 +241,33 @@ async function doProtectData () {
 
 <template>
     <hr />
-  <h1>Protect Yo Data</h1>
+    <div v-if="toValue(questionnaire) !== undefined">
+        <h1>{{questionnaire[1]}}</h1>
 
-  <div class="card">
+        <div v-for="(q, index) of questionnaire![2]">
+            <QuestionField :ref="`q${index}`" v-model:model-value="qv[index]" :q="q"></QuestionField>
+        </div>
 
-    <div v-for="(q, index) of question">
-        <QuestionField :ref="`q${index}`" v-model:model-value="qv[index]" :q="q"></QuestionField>
+        <div v-if="isFormError">
+            Form validation errors:
+            <ul>
+                <li v-for="x of formErrorFields">{{ x }}</li>
+            </ul>
+        </div>
+
+        <button type="button" :disabled="toValue(isButtonDisabled)" @click="doProtectData()">
+            Do Everything
+        </button>
+        <br />
+
+        <input type="text" :hidden="!isWorking" ref="dpcStatus" readonly v-model="dpcStatusText" />
+        <input type="text" :hidden="toValue(dpcErrorText).length == 0" ref="dpcError" readonly v-model="dpcErrorText" />
+        <div v-if="isSuccess">
+            <h3>Success!</h3>
+            Address: {{ dpcResult?.address }}<br />
+            Tx: <a :href="`${iExecChain.explorerUrl}/tx/${dpcResult?.transactionHash}`">{{ dpcResult?.transactionHash }}</a><br />
+        </div>
     </div>
-
-    <div v-if="isFormError">
-        Form validation errors:
-        <ul>
-            <li v-for="x of formErrorFields">{{ x }}</li>
-        </ul>
-    </div>
-
-    <button type="button" :disabled="toValue(isButtonDisabled)" @click="doProtectData()">
-        Do Everything
-    </button>
-    <br />
-
-    <input type="text" :hidden="!isWorking" ref="dpcStatus" readonly v-model="dpcStatusText" />
-    <input type="text" :hidden="toValue(dpcErrorText).length == 0" ref="dpcError" readonly v-model="dpcErrorText" />
-    <div v-if="isSuccess">
-        <h3>Success!</h3>
-        Address: {{ dpcResult?.address }}<br />
-        Tx: <a :href="`${iExecChain.explorerUrl}/tx/${dpcResult?.transactionHash}`">{{ dpcResult?.transactionHash }}</a><br />
-    </div>
-  </div>
   <hr />
 </template>
 
