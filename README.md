@@ -1,4 +1,4 @@
-# Block Qaiz / Private AI Questionnaires
+# Block quAIz / Private AI Questionnaires
 ![logo](https://github.com/user-attachments/assets/f8489f23-9391-4099-a979-bb52c626d739)
 
 **Powered by iExec**
