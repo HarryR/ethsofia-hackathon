@@ -20,7 +20,7 @@ async function refreshData() {
   isLoading.value = true;
   try {
     const dpw = toValue(dataProtectorWallet)!
-    const browserOwner = dpw.address;
+    //const browserOwner = dpw.address;
     //const dpw = toValue(dataProtectorWallet)!
     const dpc = toValue(dataProtectorCore)!;
     const extra = [];
