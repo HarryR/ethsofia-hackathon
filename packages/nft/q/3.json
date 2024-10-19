@@ -1,0 +1,24 @@
+{
+    "title": "Bulgaria and Sofia Opinion Survey",
+    "questions": [
+        ["This questionnaire aims to gather opinions about Bulgaria and its capital city, Sofia.", "info"],
+        ["", "prompt", "Here are the user's responses to the Bulgaria and Sofia questionnaire:"],
+        ["Have you ever visited Bulgaria?", "select", "[\"Yes\", \"No\"]"],
+        ["If yes, how many times have you been to Bulgaria?", "number"],
+        ["What is your overall impression of Bulgaria?", "range", "[1,10]"],
+        ["What comes to mind when you think of Bulgaria?", "string"],
+        ["Have you visited Sofia specifically?", "select", "[\"Yes\", \"No\"]"],
+        ["Rate Sofia as a tourist destination", "range", "[1,10]"],
+        ["What do you think is Sofia's best feature?", "select", "[\"History\", \"Culture\", \"Food\", \"Nightlife\", \"Nature\", \"Architecture\", \"People\", \"Other\"]"],
+        ["If you selected 'Other', please specify:", "string"],
+        ["What aspect of Sofia do you think needs improvement?", "string"],
+        ["Would you recommend visiting Bulgaria to others?", "select", "[\"Definitely\", \"Probably\", \"Not sure\", \"Probably not\", \"Definitely not\"]"],
+        ["How would you describe Bulgarian cuisine?", "string"],
+        ["Are you familiar with any Bulgarian historical figures or celebrities?", "select", "[\"Yes, many\", \"Yes, a few\", \"Only one or two\", \"None at all\"]"],
+        ["If familiar with any, please name one or two:", "string"],
+        ["What do you think is Bulgaria's biggest attraction for tourists?", "string"],
+        ["How safe do you perceive Bulgaria to be for tourists?", "range", "[1,10]"],
+        ["Any additional comments about Bulgaria or Sofia?", "string"],
+        ["", "prompt", "Based on the responses provided, please summarize the user's overall opinion of Bulgaria and Sofia. Highlight any notable positive or negative perceptions, and suggest one aspect that might benefit from more information or exposure to improve the user's understanding or impression."]
+    ]
+}

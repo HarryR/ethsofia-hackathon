@@ -23,5 +23,6 @@ a.q {
   padding: 10px;
   margin: 5px;
   border: 1px solid #333;
+  display: block;
 }
 </style>

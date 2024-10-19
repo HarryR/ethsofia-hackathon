@@ -8,8 +8,8 @@ import { RouterView } from 'vue-router';
 <template>
   <LoginGated>
     <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/questions">Questions</RouterLink>
+      <RouterLink to="/">My Responses</RouterLink>
+      <RouterLink to="/questions">Quiz List</RouterLink>
     </nav>
 
     <RouterView />

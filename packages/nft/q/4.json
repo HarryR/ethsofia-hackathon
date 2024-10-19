@@ -1,0 +1,24 @@
+{
+    "title": "DeFi and Ethereum Familiarity Assessment",
+    "questions": [
+        ["This questionnaire aims to assess your familiarity with Decentralized Finance (DeFi) and Ethereum.", "info"],
+        ["", "prompt", "Here are the user's responses to the DeFi and Ethereum familiarity questionnaire:"],
+        ["How would you rate your overall knowledge of cryptocurrency?", "range", "[1,10]"],
+        ["Are you familiar with Ethereum?", "select", "[\"Very familiar\", \"Somewhat familiar\", \"Heard of it\", \"Not at all\"]"],
+        ["Have you ever owned or transacted with Ether (ETH)?", "select", "[\"Yes, frequently\", \"Yes, a few times\", \"Only once\", \"Never\"]"],
+        ["Do you understand what smart contracts are?", "select", "[\"Yes, fully\", \"Yes, somewhat\", \"Not really\", \"No\"]"],
+        ["Have you ever interacted with a DeFi protocol?", "select", "[\"Yes, multiple\", \"Yes, one or two\", \"No, but I know what they are\", \"No, I'm not familiar with DeFi protocols\"]"],
+        ["If you've used DeFi protocols, which ones? (Comma-separated list)", "string"],
+        ["Are you familiar with the term 'yield farming'?", "select", "[\"Yes, I've done it\", \"Yes, I understand it\", \"I've heard of it\", \"No\"]"],
+        ["Have you ever provided liquidity to a decentralized exchange?", "select", "[\"Yes, frequently\", \"Yes, a few times\", \"Only once\", \"Never\", \"I don't know what this means\"]"],
+        ["Do you know what a 'gas fee' is in the context of Ethereum?", "select", "[\"Yes, definitely\", \"I think so\", \"Not sure\", \"No\"]"],
+        ["Have you ever used a hardware wallet for cryptocurrency storage?", "select", "[\"Yes\", \"No, but I know what it is\", \"No, I'm not familiar with hardware wallets\"]"],
+        ["Are you familiar with any Ethereum Layer 2 solutions?", "select", "[\"Yes, I've used them\", \"Yes, I know about them\", \"I've heard the term\", \"No\"]"],
+        ["How comfortable are you with the concept of 'decentralization'?", "range", "[1,10]"],
+        ["Have you participated in any DAOs (Decentralized Autonomous Organizations)?", "select", "[\"Yes, actively\", \"Yes, passively\", \"No, but I know what they are\", \"No, I'm not familiar with DAOs\"]"],
+        ["What do you think is the biggest advantage of DeFi?", "string"],
+        ["What do you think is the biggest challenge or risk in DeFi?", "string"],
+        ["How do you stay informed about developments in DeFi and Ethereum? (Select all that apply)", "multiselect", "[\"Social media\", \"Crypto news websites\", \"Whitepapers\", \"Developer documentation\", \"Friends/colleagues\", \"I don't actively follow developments\"]"],
+        ["", "prompt", "Based on the responses provided, please assess the user's level of familiarity with DeFi and Ethereum on a scale from 1 to 10, with 1 being complete novice and 10 being expert level. Provide a brief explanation for your rating, highlighting areas of strength and potential areas for further learning or exploration."]
+    ]
+}

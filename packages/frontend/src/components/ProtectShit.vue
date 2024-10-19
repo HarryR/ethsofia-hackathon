@@ -248,7 +248,7 @@ async function doProtectData () {
     <div v-if="toValue(questionnaire) !== undefined">
         <h1>{{questionnaire[1]}}</h1>
 
-        <div v-for="(q, index) of questionnaire![2]">
+        <div class="qbox" v-for="(q, index) of questionnaire![2]">
             <QuestionField :ref="`q${index}`" v-model:model-value="qv[index]" :q="q"></QuestionField>
         </div>
 
@@ -280,5 +280,8 @@ async function doProtectData () {
 </template>
 
 <style scoped>
-
+.qbox {
+    padding: 20px;
+    border-bottom: 1px solid #333;
+}
 </style>

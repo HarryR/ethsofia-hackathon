@@ -6,6 +6,10 @@ import { ProtectedData } from '@iexec/dataprotector';
 import { getTaskInfo } from '../taskresult';
 import { getQuestion } from '../qlist';
 
+const {id} = defineProps({
+    id: String
+});
+
 const { dataProtectorCore, dataProtectorWallet } = useIExec();
 
 const results = ref<ProtectedData[]>([]);
@@ -21,8 +25,9 @@ async function refreshData() {
     const dpc = toValue(dataProtectorCore)!;
     const extra = [];
     const blah = results.value = await dpc.getProtectedData({
-      owner: browserOwner,
+      //owner: browserOwner,
       pageSize: 100,
+      protectedDataAddress: id,
       requiredSchema: {
         bulgariaIsCool: "bool"
       }
@@ -48,8 +53,6 @@ refreshData();
 </script>
 
 <template>
-  <h1>Your Responses</h1>
-
   <p v-if="isLoading">Loading!...</p>
 
   <div class="card">
@@ -58,12 +61,7 @@ refreshData();
       iExec Dataset: {{ item.address }}<br />
       Timestamp: {{ item.creationTimestamp }}<br />
       Result: {{ toValue(extraData)[index].result }}
-      <router-link class="s" :to="{name:'s', params:{id:item.address}}">
-        Share
-      </router-link>
     </div>
-
-    <button @click.prevent="refreshData">Refresh</button>
   </div>
 </template>
 

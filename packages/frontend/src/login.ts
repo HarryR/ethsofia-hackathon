@@ -37,6 +37,9 @@ watch(ethersBrowserProvider, async (bp) => {
 });
 
 export function useSIWE() {
+    const url = `${window.location.protocol}//${window.location.host}`;
+        console.log(url);
+
     const canSign = computed(() => toValue(ethersBrowserProvider) !== undefined);
     const isSuccess = ref(false);
     const isSigning = ref(false);
@@ -58,7 +61,7 @@ export function useSIWE() {
             '',
             'TODO: put warning message here',
             '',
-            `URI: ${window.location}`,
+            `URI: ${url}`,
             'Version: 1',
             'Chain ID: 1',
             'Nonce: DETERMINISTIC',

@@ -1,0 +1,18 @@
+{
+    "title": "Personal Ecological Sustainability Assessment",
+    "questions": [
+        ["This questionnaire aims to assess an individual's ecological sustainability based on their daily habits and choices.", "info"],
+        ["", "prompt", "I am an AI specialized in ecological sustainability. Here are the users responses to the sustainability questionnaire:"],
+        ["How many kilometers do you travel by car per week?", "number"],
+        ["How often do you eat meat?", "select", "[\"Never\", \"1-2 times a week\", \"3-4 times a week\", \"5+ times a week\", \"Every day\"]"],
+        ["Do you actively recycle?", "select", "[\"Yes, always\", \"Sometimes\", \"Rarely\", \"Never\"]"],
+        ["How many flights do you take per year?", "range", "[0,20]"],
+        ["Do you use renewable energy sources at home?", "select", "[\"Yes\", \"Partially\", \"No\", \"I don't know\"]"],
+        ["How often do you buy new clothes?", "select", "[\"Rarely\", \"Every few months\", \"Monthly\", \"Weekly\"]"],
+        ["Do you grow any of your own food?", "select", "[\"Yes, a lot\", \"Yes, some\", \"Very little\", \"No\"]"],
+        ["How much of your waste do you compost?", "select", "[\"All organic waste\", \"Some organic waste\", \"None\"]"],
+        ["How often do you use single-use plastics?", "select", "[\"Never\", \"Rarely\", \"Sometimes\", \"Often\", \"Very frequently\"]"],
+        ["Describe any additional sustainable practices you follow:", "string"],
+        ["", "prompt", "Based on the answers provided, please assess the individual's ecological sustainability on a scale from 1 to 10, with 1 being the least sustainable and 10 being the most sustainable. Provide a brief explanation for your rating and suggest one area for improvement."]
+    ]
+}
