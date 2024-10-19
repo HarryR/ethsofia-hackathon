@@ -1,6 +1,8 @@
 # Block quAIz / Private AI Questionnaires
 ![logo](https://github.com/user-attachments/assets/f8489f23-9391-4099-a979-bb52c626d739)
 
+[View Presentation](https://docs.google.com/presentation/d/1twz7TiH-kKm2Gt0SAwlKOJ6Rm382GNb-l1UYOKEFV18/edit?usp=sharing)
+
 **Powered by iExec**
 
 The AI powered questionnaires app lets you create and fill out questionnaires. Your responses are interpreted by AI (a LLM).
