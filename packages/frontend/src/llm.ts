@@ -25,7 +25,7 @@ export async function evaluatePrompt(prompt :string) {
     }
 
     let result = await wllama.createCompletion(prompt, {
-        nPredict: 300
+        nPredict: 10
     });
 
     return result;

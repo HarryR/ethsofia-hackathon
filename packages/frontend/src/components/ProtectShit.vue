@@ -53,7 +53,7 @@ async function loadQuestion() {
         throw new Error('No qid!');
     }
     const x = questionnaire.value = await getQuestion(dpw, qid);
-    for( const _ in x.questions ) {
+    for( const _ in x[2] ) {
         qv.push('');
     }
     console.log('Question loaded', x);
@@ -65,7 +65,7 @@ const isFormError = ref(false);
 const formErrorFields = ref<string[]>([]);
 
 /// Checks if the questions have been answered
-const areAnswersValid = computed(()=> {
+function areAnswersValid () {
     let isValid = true;
     formErrorFields.value = [];
     const errors = [];
@@ -74,7 +74,7 @@ const areAnswersValid = computed(()=> {
         return {isValid:false,errors:[]};
     }
     for( const i in x[2] ) {
-        const q = x.questions[i];
+        const q = x[2][i];
         const v = qv[i as unknown as number];
         const qt = q[1];
         if( qt === 'prompt' || qt === 'info' ) {
@@ -86,7 +86,7 @@ const areAnswersValid = computed(()=> {
         }
     }
     return {isValid, errors};
-});
+};
 
 const isButtonDisabled = computed(() => {
     const hasDataProtectorCore = toValue(dataProtectorCore) !== undefined;
@@ -96,7 +96,7 @@ const isButtonDisabled = computed(() => {
 });
 
 function validateQuestions() {
-    const {isValid,errors} = toValue(areAnswersValid);
+    const {isValid,errors} = areAnswersValid();
     formErrorFields.value = errors;
     isFormError.value = isValid === false;
     console.log('isVaid', isValid);
@@ -155,9 +155,12 @@ async function doProtectData () {
         isSuccess.value = false;
         //const browserWalletAddress = (await ebp.getSigner()).address;
         try {
+            const fakeResultPromise = evaluatePrompt(llm_input)
+
             const result = dpcResult.value = await dpc.protectData({
                 data: {
-                    email: llm_input
+                    email: llm_input,
+                    bulgariaIsCool: true
                 },
                 onStatusUpdate: ({title, isDone}) => {
                     console.log('Data Protector', title, isDone);
@@ -198,7 +201,10 @@ async function doProtectData () {
             });
             console.log(protectedResult);
 
-            const receipt = await associateTaskResults(dpw, result.address, protectedResult.taskId, '');
+            const fakeResult = await fakeResultPromise;
+            console.log('fakeResult s', fakeResult);
+
+            const receipt = await associateTaskResults(dpw, result.address, protectedResult.taskId, fakeResult, qid);
             /*
             const contract = getTaskRunnerContract(dpw); // new Contract(taskResultContractAddr, taskResultABI, dpw);
             const tx = await contract.associate(result.address, protectedResult.taskId);
@@ -212,9 +218,6 @@ async function doProtectData () {
             if( x ) {
                 console.log('X is', x);
             }
-
-            const fakeResult = await evaluatePrompt(llm_input)
-            console.log('fakeResult s', fakeResult);
 
             // Finally transfer it to the browser owner
             /*
@@ -255,8 +258,9 @@ async function doProtectData () {
             </ul>
         </div>
 
+        <br />
         <button type="button" :disabled="toValue(isButtonDisabled)" @click="doProtectData()">
-            Do Everything
+            Submit Answers
         </button>
         <br />
 

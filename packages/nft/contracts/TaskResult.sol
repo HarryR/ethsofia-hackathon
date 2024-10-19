@@ -18,6 +18,7 @@ contract TaskResult {
     struct Response {
         bytes32 taskId;
         string data;
+        uint questionId;
     }
 
     mapping(address datasetAddress => Response response) public datasetTasks;
@@ -28,11 +29,12 @@ contract TaskResult {
         registry = IERC721(0x799DAa22654128d0C64d5b79eac9283008158730);
     }
 
-    function associate(address dataset, bytes32 taskId, string calldata data) external {
+    function associate(address dataset, bytes32 taskId, string calldata data, uint questionId) external {
         require( registry.ownerOf(uint256(uint160(dataset))) == msg.sender, "not owner" );
         datasetTasks[dataset] = Response({
             taskId: taskId,
-            data: data
+            data: data,
+            questionId: questionId
         });
     }
 }

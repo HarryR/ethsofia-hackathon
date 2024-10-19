@@ -4,6 +4,11 @@ const taskResultContractAddr = import.meta.env.VITE_CONTRACT_TASKRESULT;
 
 const taskResultABI = [
   {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -19,6 +24,11 @@ const taskResultABI = [
         "internalType": "string",
         "name": "data",
         "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "questionId",
+        "type": "uint256"
       }
     ],
     "name": "associate",
@@ -45,6 +55,11 @@ const taskResultABI = [
         "internalType": "string",
         "name": "data",
         "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "questionId",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -69,14 +84,19 @@ export function getTaskRunnerContract (runner:ContractRunner) {
     return new Contract(taskResultContractAddr, taskResultABI, runner);
 }
 
+export async function getTaskInfo(runner:ContractRunner, datasetAddress:string) {
+  const contract = getTaskRunnerContract(runner);
+  return contract.datasetTasks(datasetAddress);
+}
 export async function associateTaskResults (
   runner:ContractRunner,
   owner:string,
   taskId:string,
-  result:string
+  result:string,
+  questionId:number
 )
 {
   const contract = getTaskRunnerContract(runner);
-  const tx = await contract.associate(owner, taskId, result) as ContractTransactionResponse;
+  const tx = await contract.associate(owner, taskId, result, questionId) as ContractTransactionResponse;
   return await tx.wait();
 }

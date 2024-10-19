@@ -35,7 +35,7 @@ const title = q[0];
 const qtype = q[1];
 const options = q[2] !== undefined ? (q[2][0] === '[' ? JSON.parse(q[2] as string) : q[2]) : '';
 
-console.log('title', title, 'qtype', qtype, 'options', typeof options, options);
+//console.log('title', title, 'qtype', qtype, 'options', typeof options, options);
 
 const range:number[] = [];
 if( qtype == 'range' && options ) {
