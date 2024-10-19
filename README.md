@@ -1,4 +1,4 @@
-# AI Powered Questionnaires
+# Block Qaiz / Private AI Questionnaires
 
 **Powered by iExec**
 
@@ -66,4 +66,4 @@ Please provide a brief response
 
 ### Problems
 
- * We couldn't get AI working inside the confidential worker, this is a problem with iExec & Scone only supporting Node 14 (ancient). Instead we're running the LLM in the browser with WASM as a workaround.
+ * We couldn't get AI working inside the confidential worker, this is a problem with iExec & Scone only supporting Node 14 (ancient). Instead we're running the LLM in the browser with WASM as a workaround. [Read more](./packages/backend/README.md)
